@@ -1,5 +1,3 @@
-Visão de produto
-
 Para: Clinica Zucato;
 cujo: Agendamento de consultas, gestão de pacientes, controle financeiro, comunicação com pacientes, backup de dados, gestão de tempo, atendimento personalizado, controle de atendimento e facilidade de consulta ao histórico;
 O: CNC;
