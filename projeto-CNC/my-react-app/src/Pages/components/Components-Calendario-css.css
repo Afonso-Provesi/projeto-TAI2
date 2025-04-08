@@ -1,0 +1,56 @@
+.calendar{
+    height: 70vh;
+    width: 120vh;
+}
+
+.model{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.model-content{
+    background-color: aliceblue;
+    padding: 20px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* fundo escuro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  
+  .modal {
+    background: white;
+    width: 400px;
+    max-width: 90%;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+  
+  .modal h3 {
+    margin-top: 0;
+    font-size: 1.4rem;
+  }
+  
+  .modal input {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+  }
+  
+  .modal button {
+    margin: 5px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
