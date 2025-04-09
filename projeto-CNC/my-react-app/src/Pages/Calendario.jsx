@@ -6,6 +6,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "./components/Components-Calendario-css.css";
 
+import { FaPlus, FaTrash, FaTimes } from "react-icons/fa";
+
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
@@ -111,21 +113,65 @@ function Calendario() {
   return (
     <div>
       <h2>Calendário</h2>
-      <label>Selecionar agenda: </label>
-      <select
-        value={agendaSelecionada}
-        onChange={(e) => setAgendaSelecionada(Number(e.target.value))}
-      >
-        {agendas.map((agenda, index) => (
-          <option key={index} value={index}>
-            {agenda.nome}
-          </option>
-        ))}
-      </select>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+        <label>Selecionar agenda: </label>
+        <select
+          value={agendaSelecionada}
+          onChange={(e) => setAgendaSelecionada(Number(e.target.value))}
+        >
+          {agendas.map((agenda, index) => (
+            <option key={index} value={index}>
+              {agenda.nome}
+            </option>
+          ))}
+        </select>
+
+        <button
+          onClick={() => {
+            const nomeNovaAgenda = prompt("Digite o nome da nova agenda:");
+            if (nomeNovaAgenda && nomeNovaAgenda.trim() !== "") {
+              const novaAgenda = {
+                nome: nomeNovaAgenda.trim(),
+                eventos: [],
+              };
+              const novasAgendas = [...agendas, novaAgenda];
+              setAgendas(novasAgendas);
+              setAgendaSelecionada(novasAgendas.length - 1);
+            }
+          }}
+          title="Nova agenda"
+          style={{ backgroundColor: "#4caf50", color: "white", padding: "6px 10px", border: "none", borderRadius: "4px" }}
+        >
+          <FaPlus />
+        </button>
+
+        <button
+          onClick={() => {
+            if (agendas.length === 1) {
+              alert("Você não pode deletar a última agenda.");
+              return;
+            }
+
+            const confirmDelete = window.confirm(
+              `Tem certeza que deseja deletar a agenda "${agendas[agendaSelecionada].nome}"?`
+            );
+            if (confirmDelete) {
+              const novasAgendas = agendas.filter((_, idx) => idx !== agendaSelecionada);
+              setAgendas(novasAgendas);
+              setAgendaSelecionada((prev) => (prev > 0 ? prev - 1 : 0));
+            }
+          }}
+          title="Excluir agenda"
+          style={{ backgroundColor: "#f44336", color: "white", padding: "6px 10px", border: "none", borderRadius: "4px" }}
+        >
+          <FaTrash />
+        </button>
+      </div>
+
 
       <DragAndDropCalendar
         defaultDate={moment().toDate()}
-        defaultView="week"
+        defaultView="week"  
         events={agendas[agendaSelecionada].eventos}
         localizer={localizer}
         resizable
@@ -137,10 +183,26 @@ function Calendario() {
         className="calendar"
       />
 
+      {eventSelected && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h3>Detalhes do Evento</h3>
+              <button onClick={handleEventClose} style={{ background: "none", border: "none" }}>
+                <FaTimes size={18} />
+              </button>
+            </div>
+            <p><strong>Nome:</strong> {eventSelected.title}</p>
+            <p><strong>Início:</strong> {moment(eventSelected.start).format("DD/MM/YYYY HH:mm")}</p>
+            <p><strong>Término:</strong> {moment(eventSelected.end).format("DD/MM/YYYY HH:mm")}</p>
+          </div>
+        </div>
+      )}
+
       {novoEvento && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>Novo Evento</h3>
+            <h3 style = {{ marginBottom: "16px", textAlign: "center" }}>Novo Evento</h3>
             <p>Início: {moment(novoEvento.start).format("DD/MM/YYYY HH:mm")}</p>
             <label>Horário de término:</label>
             <input

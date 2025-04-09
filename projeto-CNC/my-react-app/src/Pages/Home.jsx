@@ -1,13 +1,13 @@
 import React from "react";
 
-function Login(){
+function Home(){
     return(
-    <div className="Login">
-        <h1>Login</h1>
+    <div style={{padding: "20px"}}>
+        <h2>Login</h2>
         <p>Nome de Usuário</p>
         
     </div>    
     )
 }
 
-export default Login;
+export default Home;
