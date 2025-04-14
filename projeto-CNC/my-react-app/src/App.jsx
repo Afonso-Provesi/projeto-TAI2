@@ -9,6 +9,7 @@ function App() {
         <h2>Menu</h2>
         <ul>
           <li><a href="#">Calendário</a></li>
+          <li><a href="#">Cadastro</a></li>
           <li><a href="#">Configurações</a></li>
           <li><a href="#">Sobre</a></li>
         </ul>

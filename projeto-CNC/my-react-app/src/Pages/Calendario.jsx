@@ -27,8 +27,7 @@ const carregarEventosLocal = () => {
 
 function Calendario() {
   const [agendas, setAgendas] = useState([
-    { nome: "Pessoa 1", eventos: [] },
-    { nome: "Pessoa 2", eventos: [] },
+    { nome: "Murilo Zucato", eventos: [] },
   ]);
   const [agendaSelecionada, setAgendaSelecionada] = useState(0);
   const [eventSelected, setEventSelected] = useState(null);
