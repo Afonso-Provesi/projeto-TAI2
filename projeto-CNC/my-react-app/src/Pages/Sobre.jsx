@@ -1,8 +1,10 @@
-import React from React;
+import React from "react";
 
 function Sobre(){
     return(
-        <p>teste</p>
+        <div>
+            <p>teste</p>
+        </div>
     );
 }
 

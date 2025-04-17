@@ -4,7 +4,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
-import "./components/Components-Calendario-css.css";
+import "../components/Components-Calendario-css.css";
 import { FaCalendarAlt, FaPlus, FaTrash, FaCog } from "react-icons/fa";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);

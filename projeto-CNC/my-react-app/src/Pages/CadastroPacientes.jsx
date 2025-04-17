@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from React;
+import React from "react";
 
 function CadastroPacientes(){
     return(
-        <p>teste</p>
+        <div>
+            <p>teste</p>
+        </div>
     );
 }
 

@@ -1,6 +1,6 @@
-import Sidebar from "../components/Sidebar";
+import Sidebar from "../components/MenuLateral";
 import { Outlet } from "react-router-dom";
-import "./MainLayout.css";
+import "./Main-Layout.css";
 
 export default function MainLayout() {
   return (

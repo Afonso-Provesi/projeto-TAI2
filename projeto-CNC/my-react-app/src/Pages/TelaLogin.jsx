@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./components/TelaLogin.css";
+import "../components/TelaLogin.css";
 
 function TelaLogin() {
   const [usuario, setUsuario] = useState("");

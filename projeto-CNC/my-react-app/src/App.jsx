@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/TelaLogin.jsx";
-import Agenda from "./pages/Calendario.jsx";
+import Login from "./Pages/TelaLogin.jsx";
+import Agenda from "./Pages/Calendario.jsx";
 import CadastroPacientes from "./Pages/CadastroPacientes";
-import Sobre from "./pages/Sobre";
-import MainLayout from "./Pages/layouts/MainLayout.jsx";
+import Sobre from "./Pages/Sobre";
+import MainLayout from "./Layout/MainLayout.jsx";
 
 function App() {
   return (
