@@ -5,17 +5,14 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "./components/Components-Calendario-css.css";
-import {
-  FaCalendarAlt,
-  FaPlus,
-  FaTrash,
-  FaCog,
-} from "react-icons/fa";
+import { FaCalendarAlt, FaPlus, FaTrash, FaCog } from "react-icons/fa";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
 
-// Funções para localStorage
+const gerarCorAleatoria = () =>
+  "#" + Math.floor(Math.random() * 16777215).toString(16);
+
 const salvarEventosLocal = (agendas) => {
   localStorage.setItem("agendasSalvas", JSON.stringify(agendas));
 };
@@ -26,15 +23,17 @@ const carregarEventosLocal = () => {
 };
 
 function Calendario() {
+  const [dataAtual, setDataAtual] = useState(new Date());
   const [agendas, setAgendas] = useState([
-    { nome: "Murilo Zucato", eventos: [] },
+    { nome: "Murilo Zucato", cor: gerarCorAleatoria(), eventos: [] },
   ]);
   const [agendaSelecionada, setAgendaSelecionada] = useState(0);
   const [eventSelected, setEventSelected] = useState(null);
   const [novoEvento, setNovoEvento] = useState(null);
   const [tituloEvento, setTituloEvento] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [duracaoMinutos, setDuracaoMinutos] = useState(30);
   const [view, setView] = useState("week");
+  const [configAberta, setConfigAberta] = useState(false);
 
   useEffect(() => {
     const dadosSalvos = carregarEventosLocal();
@@ -50,6 +49,7 @@ function Calendario() {
       if (e.key === "Escape") {
         setNovoEvento(null);
         setEventSelected(null);
+        setConfigAberta(false);
       }
     };
     window.addEventListener("keydown", escFunction);
@@ -66,26 +66,25 @@ function Calendario() {
       }
       return agenda;
     });
-
     setAgendas(updatedAgendas);
   };
 
-  const handleSelectSlot = ({ start, end }) => {
-    setNovoEvento({ start, end });
+  const handleSelectSlot = ({ start }) => {
+    setNovoEvento({ start });
     setTituloEvento("");
-    setEndTime(moment(end).format("YYYY-MM-DDTHH:mm"));
   };
 
   const handleSalvarNovoEvento = () => {
     if (!tituloEvento.trim()) return;
 
-    const endParsed = moment(endTime).toDate();
+    const start = novoEvento.start;
+    const end = moment(start).add(duracaoMinutos, "minutes").toDate();
 
     const novo = {
       id: new Date().getTime(),
       title: tituloEvento,
-      start: novoEvento.start,
-      end: endParsed,
+      start,
+      end,
     };
 
     const updatedAgendas = agendas.map((agenda, index) => {
@@ -101,6 +100,7 @@ function Calendario() {
     setAgendas(updatedAgendas);
     setNovoEvento(null);
     setTituloEvento("");
+    setDuracaoMinutos(30);
   };
 
   const handleDeletarAgenda = () => {
@@ -113,19 +113,24 @@ function Calendario() {
   const handleAdicionarAgenda = () => {
     const nome = prompt("Digite o nome da nova agenda:");
     if (nome) {
-      setAgendas([...agendas, { nome, eventos: [] }]);
-      setAgendaSelecionada(agendas.length); // seleciona nova agenda
+      setAgendas([
+        ...agendas,
+        { nome, eventos: [], cor: gerarCorAleatoria() },
+      ]);
+      setAgendaSelecionada(agendas.length);
     }
   };
+
   const handleSelectEvent = (event) => {
-    setEventSelected(event); // Atualiza o evento selecionado no estado
+    setEventSelected(event);
   };
-  
+
   const handleDeleteEvent = () => {
-    // Atualiza o estado de agendas removendo o evento
     const updatedAgendas = agendas.map((agenda, index) => {
       if (index === agendaSelecionada) {
-        const updatedEventos = agenda.eventos.filter((e) => e.id !== eventSelected.id);
+        const updatedEventos = agenda.eventos.filter(
+          (e) => e.id !== eventSelected.id
+        );
         return {
           ...agenda,
           eventos: updatedEventos,
@@ -133,17 +138,40 @@ function Calendario() {
       }
       return agenda;
     });
-  
-    // Atualiza o estado com as agendas modificadas
+
     setAgendas(updatedAgendas);
-    setEventSelected(null); // Fecha o modal
+    setEventSelected(null);
+  };
+
+  const eventPropGetter = () => {
+    const corAgenda = agendas[agendaSelecionada].cor;
+    return {
+      style: {
+        backgroundColor: corAgenda,
+        borderRadius: "6px",
+        color: "white",
+        border: "none",
+        padding: "2px 6px",
+      },
+    };
+  };
+
+  const corAgendaAtual = agendas[agendaSelecionada].cor;
+
+  const handleTrocarCor = (novaCor) => {
+    const novasAgendas = agendas.map((agenda, index) =>
+      index === agendaSelecionada ? { ...agenda, cor: novaCor } : agenda
+    );
+    setAgendas(novasAgendas);
   };
 
   return (
     <div className="container">
-      <div style={{display:"flex",height:"100vh"}}>
+      <div style={{ display: "flex", height: "100vh" }}>
         <div className="sidebar">
-          <h2><FaCalendarAlt /> Agenda</h2>
+          <h2>
+            <FaCalendarAlt /> Agenda
+          </h2>
 
           <select
             value={agendaSelecionada}
@@ -164,14 +192,29 @@ function Calendario() {
             <FaTrash /> Deletar Agenda
           </button>
 
-          <button>
+          <button onClick={() => setConfigAberta(!configAberta)}>
             <FaCog /> Configurações
           </button>
+
+          {configAberta && (
+            <div style={{ marginTop: "1rem" }}>
+              <label>Mudar Cor da Agenda:</label>
+              <input
+                type="color"
+                value={corAgendaAtual}
+                onChange={(e) => handleTrocarCor(e.target.value)}
+              />
+            </div>
+          )}
         </div>
 
-        <div style={{flex: 1, padding: "16px"}} className="main-content">
+        <div
+          style={{ flex: 1, padding: "16px" }}
+          className="main-content"
+        >
           <DragAndDropCalendar
             view={view}
+            onNavigate={(newDate) => setDataAtual(newDate)}
             onView={(newView) => setView(newView)}
             defaultDate={moment().toDate()}
             events={agendas[agendaSelecionada].eventos}
@@ -183,41 +226,66 @@ function Calendario() {
             onSelectSlot={handleSelectSlot}
             onSelectEvent={handleSelectEvent}
             className="calendar"
-            style={{height: "100%"}}
+            eventPropGetter={eventPropGetter}
+            style={{ height: "100%" }}
           />
 
-        {eventSelected && (
-              <div className="modal-overlay">
-                <div className="modal">
-                  <h3>Detalhes do Evento</h3>
-                  <p><strong>Nome:</strong> {eventSelected.title}</p>
-                  <p><strong>Início:</strong> {moment(eventSelected.start).format("DD/MM/YYYY HH:mm")}</p>
-                  <p><strong>Fim:</strong> {moment(eventSelected.end).format("DD/MM/YYYY HH:mm")}</p>
-                  <p><strong>Agenda:</strong> {agendas[agendaSelecionada].nome}</p>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
-                    <button onClick={() => setEventSelected(null)}>Fechar</button>
-                    {/* Botão Deletar */}
-                    <button
-                      style={{ backgroundColor: "#d9534f", color: "white" }}
-                      onClick={handleDeleteEvent} // Chama a função de deletar
-                    >
-                      Deletar
-                    </button>
-                  </div>
+          {eventSelected && (
+            <div className="modal-overlay">
+              <div className="modal">
+                <h3>Detalhes do Evento</h3>
+                <p>
+                  <strong>Nome:</strong> {eventSelected.title}
+                </p>
+                <p>
+                  <strong>Início:</strong>{" "}
+                  {moment(eventSelected.start).format("DD/MM/YYYY HH:mm")}
+                </p>
+                <p>
+                  <strong>Fim:</strong>{" "}
+                  {moment(eventSelected.end).format("DD/MM/YYYY HH:mm")}
+                </p>
+                <p>
+                  <strong>Agenda:</strong> {agendas[agendaSelecionada].nome}
+                </p>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <button onClick={() => setEventSelected(null)}>Fechar</button>
+                  <button
+                    style={{ backgroundColor: "#d9534f", color: "white" }}
+                    onClick={handleDeleteEvent}
+                  >
+                    Deletar
+                  </button>
                 </div>
               </div>
-          )};
+            </div>
+          )}
+
           {novoEvento && (
             <div className="modal-overlay">
               <div className="modal">
                 <h3>Novo Evento</h3>
-                <p>Início: {moment(novoEvento.start).format("DD/MM/YYYY HH:mm")}</p>
-                <label>Término:</label>
-                <input
-                  type="datetime-local"
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                />
+                <p>
+                  Início: {moment(novoEvento.start).format("DD/MM/YYYY HH:mm")}
+                </p>
+
+                <label>Duração:</label>
+                <select
+                  value={duracaoMinutos}
+                  onChange={(e) => setDuracaoMinutos(Number(e.target.value))}
+                >
+                  <option value={15}>15 minutos</option>
+                  <option value={30}>30 minutos</option>
+                  <option value={45}>45 minutos</option>
+                  <option value={60}>60 minutos</option>
+                </select>
+
                 <input
                   type="text"
                   placeholder="Título"

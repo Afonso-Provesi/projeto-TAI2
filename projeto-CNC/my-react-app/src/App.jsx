@@ -1,23 +1,22 @@
-import React from 'react';
-import './App.css';
-import Calendario from './Pages/Calendario.jsx';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/TelaLogin.jsx";
+import Agenda from "./pages/Calendario.jsx";
+import CadastroPacientes from "./Pages/CadastroPacientes";
+import Sobre from "./pages/Sobre";
+import MainLayout from "./Pages/layouts/MainLayout.jsx";
 
 function App() {
   return (
-    <div className="app-container">
-      <aside className="sidebar">
-        <h2>Menu</h2>
-        <ul>
-          <li><a href="#">Calendário</a></li>
-          <li><a href="#">Cadastro</a></li>
-          <li><a href="#">Configurações</a></li>
-          <li><a href="#">Sobre</a></li>
-        </ul>
-      </aside>
-      <main className="main-content">
-        <Calendario />
-      </main>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route element={<MainLayout />}>
+          <Route path="/agenda" element={<Agenda />} />
+          <Route path="/cadastro" element={<CadastroPacientes />} />
+          <Route path="/sobre" element={<Sobre />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
