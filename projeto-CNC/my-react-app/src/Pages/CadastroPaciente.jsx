@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../components/TelaLogin.css"; // Pode usar o mesmo CSS da tela de login
+import "../components/TelaLogin.css"; 
 
 function TelaCadastro() {
   const [usuario, setUsuario] = useState("");
@@ -11,7 +11,6 @@ function TelaCadastro() {
   const handleCadastro = (e) => {
     e.preventDefault();
     if (usuario && email && senha) {
-      // Aqui você pode chamar uma API, salvar no localStorage, etc.
       alert("Cadastro realizado com sucesso!");
       navigate("/"); // Volta para a tela de login
     } else {
@@ -50,4 +49,4 @@ function TelaCadastro() {
   );
 }
 
-export default TelaCadastro;
+export default CadastroPacientes;
