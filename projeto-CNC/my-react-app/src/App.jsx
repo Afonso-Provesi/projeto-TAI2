@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Pages/TelaLogin.jsx";
 import Agenda from "./Pages/Calendario.jsx";
-import CadastroPacientes from "./Pages/CadastroPacientes";
+import CadastroPacientes from "./Pages/CadastroPacientes.jsx";
 import Sobre from "./Pages/Sobre";
 import MainLayout from "./Layout/MainLayout.jsx";
 
@@ -12,7 +12,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route element={<MainLayout />}>
           <Route path="/agenda" element={<Agenda />} />
-          <Route path="/cadastro" element={<CadastroPacientes />} />
+          <Route path="/cadastro" element={<CadastroPacientes.jsx/>} />
           <Route path="/sobre" element={<Sobre />} />
         </Route>
       </Routes>
