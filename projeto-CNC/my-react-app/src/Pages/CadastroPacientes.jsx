@@ -16,7 +16,7 @@ function CadastroPacientes() {
 
     if (nome && endereco && telefone && procedimento && orcamento) {
       alert("Paciente cadastrado com sucesso!");
-      navigate("/"); // volta para tela de login
+      navigate("/agenda"); 
     } else {
       alert("Preencha todos os campos obrigatórios");
     }
@@ -66,10 +66,6 @@ function CadastroPacientes() {
         />
 
         <button type="submit">Cadastrar Paciente</button>
-
-        <p className="cadastro-link">
-          Já tem uma conta? <Link to="/">Voltar para login</Link>
-        </p>
       </form>
     </div>
   );
