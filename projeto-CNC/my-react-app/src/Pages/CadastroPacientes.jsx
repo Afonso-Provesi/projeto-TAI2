@@ -1,46 +1,72 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import "../components/TelaLogin.css"; 
+import "../components/TelaLogin.css";
 
-function TelaCadastro() {
-  const [usuario, setUsuario] = useState("");
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+function CadastroPacientes() {
+  const [nome, setNome] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [telefone, setTelefone] = useState("");
+  const [procedimento, setProcedimento] = useState("");
+  const [exames, setExames] = useState("");
+  const [orcamento, setOrcamento] = useState("");
   const navigate = useNavigate();
 
   const handleCadastro = (e) => {
     e.preventDefault();
-    if (usuario && email && senha) {
-      alert("Cadastro realizado com sucesso!");
-      navigate("/"); // Volta para a tela de login
+
+    if (nome && endereco && telefone && procedimento && orcamento) {
+      alert("Paciente cadastrado com sucesso!");
+      navigate("/"); // volta para tela de login
     } else {
-      alert("Preencha todos os campos");
+      alert("Preencha todos os campos obrigatórios");
     }
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleCadastro}>
-        <h2 className="titulo">Cadastro</h2>
+        <h2 className="titulo">Cadastro de Paciente</h2>
+
         <input
           type="text"
-          placeholder="Usuário"
-          value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
+          placeholder="Nome do Paciente"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
         />
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text"
+          placeholder="Endereço"
+          value={endereco}
+          onChange={(e) => setEndereco(e.target.value)}
         />
         <input
-          type="password"
-          placeholder="Senha"
-          value={senha}
-          onChange={(e) => setSenha(e.target.value)}
+          type="tel"
+          placeholder="Telefone"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
         />
-        <button type="submit">Cadastrar</button>
+        <input
+          type="text"
+          placeholder="Procedimento"
+          value={procedimento}
+          onChange={(e) => setProcedimento(e.target.value)}
+        />
+        <textarea
+          placeholder="Exames"
+          value={exames}
+          onChange={(e) => setExames(e.target.value)}
+          rows="3"
+        />
+        <input
+          type="number"
+          placeholder="Orçamento (R$)"
+          value={orcamento}
+          onChange={(e) => setOrcamento(e.target.value)}
+          step="0.01"
+        />
+
+        <button type="submit">Cadastrar Paciente</button>
+
         <p className="cadastro-link">
           Já tem uma conta? <Link to="/">Voltar para login</Link>
         </p>
@@ -49,4 +75,4 @@ function TelaCadastro() {
   );
 }
 
-export default CadastroPacientes;
+export default CadastroPacientes;   

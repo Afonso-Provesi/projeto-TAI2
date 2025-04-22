@@ -33,10 +33,14 @@ function TelaLogin() {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
-        <button type="submit">Entrar</button>
-        <p className="cadastro-link">
-          Não tem uma conta? <Link to="/cadastro">Cadastre-se</Link>
-        </p>
+        <button type="submit" style={{ marginBottom: '10px' }}>
+          Entrar
+        </button>
+        <button type="button" onClick={() => navigate('/cadastrar')}>
+          Cadastrar-se
+        </button>
+
+
       </form>
     </div>
   );

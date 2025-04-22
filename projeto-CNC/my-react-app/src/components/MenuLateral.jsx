@@ -7,7 +7,7 @@ export default function MenuLateral() {
       <h2 className="logo">Minha Agenda</h2>
       <nav>
         <Link to="/agenda">Agenda</Link>
-        <Link to="/cadastro">Cadastro de Pacientes</Link>
+        <Link to="/pacientes">Cadastro de Pacientes</Link>
         <Link to="/sobre">Sobre</Link>
       </nav>
     </div>
