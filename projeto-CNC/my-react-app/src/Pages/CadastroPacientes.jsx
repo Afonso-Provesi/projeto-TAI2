@@ -47,7 +47,7 @@ function CadastroPacientes() {
         />
         <input
           type="text"
-          placeholder="Procedimento"
+          placeholder="Procedimentos"
           value={procedimento}
           onChange={(e) => setProcedimento(e.target.value)}
         />

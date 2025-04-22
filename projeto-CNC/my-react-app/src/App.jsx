@@ -5,8 +5,9 @@ import CadastroPacientes from "./Pages/CadastroPacientes";
 import Sobre from "./Pages/Sobre";
 import MainLayout from "./Layout/MainLayout.jsx";
 import Cadastrar from "./Pages/TelaCadastro.jsx";
+import ListaPacientes from "./Pages/ListaDePacientes.jsx";
 
-function App() {
+function App() {  
   return (
     <BrowserRouter>
       <Routes>
@@ -14,7 +15,7 @@ function App() {
         <Route path="/cadastrar" element={<Cadastrar/>}/>
         <Route element={<MainLayout />}>
           <Route path="/agenda" element={<Agenda />} />
-          <Route path="/cadastro" element={<CadastroPacientes />} />
+          <Route path="/paciente" element={<ListaPacientes />} />
           <Route path="/sobre" element={<Sobre />} />
         </Route>
       </Routes>

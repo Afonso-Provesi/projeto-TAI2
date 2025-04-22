@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PacienteContext } from "../context/PacienteContext";
+import "../components/TelaLogin.css";
 
 function ListaPacientes() {
   const { pacientes } = useContext(PacienteContext);
@@ -15,11 +16,19 @@ function ListaPacientes() {
         </button>
       </div>
       <ul style={{ marginTop: "1rem" }}>
-        {pacientes.length === 0 ? (
+        {!pacientes || pacientes.length === 0 ? (
           <p>Nenhum paciente cadastrado.</p>
         ) : (
-          pacientes.map((paciente, index) => (
-            <li key={index} style={{ marginBottom: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+          pacientes.map((paciente) => (
+            <li
+              key={paciente.id || paciente.nome}
+              style={{
+                marginBottom: "1rem",
+                padding: "1rem",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+              }}
+            >
               <strong>{paciente.nome}</strong> <br />
               <small>Cadastrado em: {new Date(paciente.dataCadastro).toLocaleDateString()}</small>
             </li>

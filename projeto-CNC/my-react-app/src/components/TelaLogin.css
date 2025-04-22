@@ -60,5 +60,11 @@ body, html {
     background-color: #2c5282;
   }
 
+  .login-form textarea{
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
   
   
