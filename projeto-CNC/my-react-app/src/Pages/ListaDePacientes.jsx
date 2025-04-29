@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+// ListaPacientes.js
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { PacienteContext } from "../context/PacienteContext";
+import { usePacientes } from "../context/PacienteContext";
 import "../components/TelaLogin.css";
 
 function ListaPacientes() {
-  const { pacientes } = useContext(PacienteContext);
+  const { pacientes } = usePacientes();
   const navigate = useNavigate();
 
   return (
@@ -21,13 +22,15 @@ function ListaPacientes() {
         ) : (
           pacientes.map((paciente) => (
             <li
-              key={paciente.id || paciente.nome}
+              key={paciente.id}
               style={{
                 marginBottom: "1rem",
                 padding: "1rem",
                 border: "1px solid #ccc",
                 borderRadius: "8px",
+                cursor: "pointer"
               }}
+              onClick={() => navigate(`/pacientes/${paciente.id}`)}
             >
               <strong>{paciente.nome}</strong> <br />
               <small>Cadastrado em: {new Date(paciente.dataCadastro).toLocaleDateString()}</small>
