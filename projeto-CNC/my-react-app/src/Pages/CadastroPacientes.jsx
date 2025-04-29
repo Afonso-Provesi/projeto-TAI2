@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { PacienteContext } from "../context/PacienteContext";
 import "../components/TelaLogin.css";
 
 function CadastroPacientes() {
@@ -10,13 +11,25 @@ function CadastroPacientes() {
   const [exames, setExames] = useState("");
   const [orcamento, setOrcamento] = useState("");
   const navigate = useNavigate();
+  const { adicionarPaciente } = useContext(PacienteContext);
 
   const handleCadastro = (e) => {
     e.preventDefault();
 
     if (nome && endereco && telefone && procedimento && orcamento) {
+      const novoPaciente = {
+        id: Date.now(),
+        nome,
+        endereco,
+        telefone,
+        procedimento,
+        exames,
+        orcamento,
+        dataCadastro: new Date().toISOString(),
+      };
+      adicionarPaciente(novoPaciente);
       alert("Paciente cadastrado com sucesso!");
-      navigate("/agenda"); 
+      navigate("/pacientes");
     } else {
       alert("Preencha todos os campos obrigatórios");
     }
@@ -66,9 +79,13 @@ function CadastroPacientes() {
         />
 
         <button type="submit">Cadastrar Paciente</button>
+
+        <p className="cadastro-link">
+          Já tem uma conta? <Link to="/">Voltar para login</Link>
+        </p>
       </form>
     </div>
   );
 }
 
-export default CadastroPacientes;   
+export default CadastroPacientes;
