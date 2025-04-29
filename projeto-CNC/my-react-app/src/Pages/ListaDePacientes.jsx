@@ -1,18 +1,21 @@
-// ListaPacientes.js
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { usePacientes } from "../context/PacienteContext";
+import { PacienteContext } from "../context/PacienteContext";
 import "../components/TelaLogin.css";
 
 function ListaPacientes() {
-  const { pacientes } = usePacientes();
+  const { pacientes } = useContext(PacienteContext);
   const navigate = useNavigate();
+
+  const abrirDetalhes = (id) => {
+    navigate(`/pacientes/${id}`);
+  };
 
   return (
     <div style={{ padding: "2rem" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>Pacientes Cadastrados</h2>
-        <button onClick={() => navigate("/pacientes/novo")} style={{ padding: "0.5rem 1rem" }}>
+        <button onClick={() => navigate("/cadastro")} style={{ padding: "0.5rem 1rem" }}>
           Novo Paciente
         </button>
       </div>
@@ -23,14 +26,14 @@ function ListaPacientes() {
           pacientes.map((paciente) => (
             <li
               key={paciente.id}
+              onClick={() => abrirDetalhes(paciente.id)}
               style={{
                 marginBottom: "1rem",
                 padding: "1rem",
                 border: "1px solid #ccc",
                 borderRadius: "8px",
-                cursor: "pointer"
+                cursor: "pointer",
               }}
-              onClick={() => navigate(`/pacientes/${paciente.id}`)}
             >
               <strong>{paciente.nome}</strong> <br />
               <small>Cadastrado em: {new Date(paciente.dataCadastro).toLocaleDateString()}</small>
@@ -43,3 +46,4 @@ function ListaPacientes() {
 }
 
 export default ListaPacientes;
+
