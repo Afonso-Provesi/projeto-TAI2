@@ -14,6 +14,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/cadastrar" element={<Cadastrar/>}/>
         <Route path="/cadastro" element={<CadastroPacientes />} />
+        <Route path="/pacientes/:id" element={<DetalhesPaciente />} />
         <Route element={<MainLayout />}>
           <Route path="/agenda" element={<Agenda />} />
           <Route path="/paciente" element={<ListaPacientes />} />
