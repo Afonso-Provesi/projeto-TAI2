@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "../components/TelaLogin.css";
+import { PacienteContext } from "../context/PacienteContext";
 
 function CadastroPacientes() {
   const [nome, setNome] = useState("");
@@ -9,14 +10,28 @@ function CadastroPacientes() {
   const [procedimento, setProcedimento] = useState("");
   const [exames, setExames] = useState("");
   const [orcamento, setOrcamento] = useState("");
+
   const navigate = useNavigate();
+  const { adicionarPaciente } = useContext(PacienteContext);
 
   const handleCadastro = (e) => {
     e.preventDefault();
 
     if (nome && endereco && telefone && procedimento && orcamento) {
+      const novoPaciente = {
+        id: Date.now(),
+        nome,
+        endereco,
+        telefone,
+        procedimento,
+        exames,
+        orcamento,
+        dataCadastro: new Date().toISOString()
+      };
+
+      adicionarPaciente(novoPaciente);
       alert("Paciente cadastrado com sucesso!");
-      navigate("/agenda"); 
+      navigate("/paciente");
     } else {
       alert("Preencha todos os campos obrigatórios");
     }
@@ -51,11 +66,11 @@ function CadastroPacientes() {
           value={procedimento}
           onChange={(e) => setProcedimento(e.target.value)}
         />
-        <textarea
+        <input
+          type="text"
           placeholder="Exames"
           value={exames}
           onChange={(e) => setExames(e.target.value)}
-          rows="3"
         />
         <input
           type="number"
@@ -71,4 +86,4 @@ function CadastroPacientes() {
   );
 }
 
-export default CadastroPacientes;   
+export default CadastroPacientes;

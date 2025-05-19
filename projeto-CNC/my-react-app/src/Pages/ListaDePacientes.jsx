@@ -1,42 +1,52 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PacienteContext } from "../context/PacienteContext";
-import "../components/TelaLogin.css";
 
-function ListaPacientes() {
+function ListaDePacientes() {
   const { pacientes } = useContext(PacienteContext);
+  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const navigate = useNavigate();
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2>Pacientes Cadastrados</h2>
-        <button onClick={() => navigate("/pacientes/novo")} style={{ padding: "0.5rem 1rem" }}>
-          Novo Paciente
-        </button>
-      </div>
-      <ul style={{ marginTop: "1rem" }}>
-        {!pacientes || pacientes.length === 0 ? (
+    <div className="login-container">
+      <div className="login-form" style={{ color: "black" }}>
+        <h2 className="titulo">Lista de Pacientes</h2>
+
+        {pacientes.length === 0 ? (
           <p>Nenhum paciente cadastrado.</p>
         ) : (
-          pacientes.map((paciente) => (
-            <li
-              key={paciente.id || paciente.nome}
-              style={{
-                marginBottom: "1rem",
-                padding: "1rem",
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-              }}
-            >
-              <strong>{paciente.nome}</strong> <br />
-              <small>Cadastrado em: {new Date(paciente.dataCadastro).toLocaleDateString()}</small>
-            </li>
-          ))
+          <ul>
+            {pacientes.map((paciente) => (
+              <li
+                key={paciente.id}
+                style={{ cursor: "pointer", marginBottom: "10px" }}
+                onClick={() => setPacienteSelecionado(paciente)}
+              >
+                {paciente.nome} - {new Date(paciente.dataCadastro).toLocaleDateString()}
+              </li>
+            ))}
+          </ul>
         )}
-      </ul>
+
+        <button onClick={() => navigate("/pacientes/novo")}>
+          Cadastrar Novo Paciente
+        </button>
+
+        {pacienteSelecionado && (
+          <div style={{ marginTop: "20px", borderTop: "1px solid #ccc", paddingTop: "10px" }}>
+            <h3>Detalhes do Paciente</h3>
+            <p><strong>Nome:</strong> {pacienteSelecionado.nome}</p>
+            <p><strong>Endereço:</strong> {pacienteSelecionado.endereco}</p>
+            <p><strong>Telefone:</strong> {pacienteSelecionado.telefone}</p>
+            <p><strong>Procedimento:</strong> {pacienteSelecionado.procedimento}</p>
+            <p><strong>Exames:</strong> {pacienteSelecionado.exames}</p>
+            <p><strong>Orçamento:</strong> R$ {parseFloat(pacienteSelecionado.orcamento).toFixed(2)}</p>
+            <p><strong>Data de Cadastro:</strong> {new Date(pacienteSelecionado.dataCadastro).toLocaleString()}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
-export default ListaPacientes;
+export default ListaDePacientes;

@@ -16,6 +16,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/agenda" element={<Agenda />} />
           <Route path="/paciente" element={<ListaPacientes />} />
+          <Route path="/pacientes/novo" element={<CadastroPacientes />} />
           <Route path="/sobre" element={<Sobre />} />
         </Route>
       </Routes>
