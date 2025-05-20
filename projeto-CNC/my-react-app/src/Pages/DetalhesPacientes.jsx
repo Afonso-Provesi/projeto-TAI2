@@ -1,36 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { usePacientes } from "../context/PacienteContext";
+import { PacienteContext } from "../context/PacienteContext";
 
-function DetalhesPaciente() {
+function DetalhesPacientes() {
   const { id } = useParams();
-  const { pacientes } = usePacientes();
+  const { pacientes } = useContext(PacienteContext);
   const paciente = pacientes.find((p) => p.id === parseInt(id));
-  const [exames, setExames] = useState([]);
+  const [examesEnviados, setExamesEnviados] = useState([]);
 
   const handleUpload = (e) => {
     const arquivos = Array.from(e.target.files);
-    setExames([...exames, ...arquivos]);
+    setExamesEnviados([...examesEnviados, ...arquivos]);
   };
 
   if (!paciente) return <p>Paciente não encontrado.</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>{paciente.nome}</h2>
-      <p><strong>Data:</strong> {paciente.data}</p>
+    <div style={{ padding: "2rem", color: "black" }}>
+      <h2>Detalhes do Paciente</h2>
+      <p><strong>Nome:</strong> {paciente.nome}</p>
       <p><strong>Endereço:</strong> {paciente.endereco}</p>
       <p><strong>Telefone:</strong> {paciente.telefone}</p>
       <p><strong>Procedimento:</strong> {paciente.procedimento}</p>
       <p><strong>Exames:</strong> {paciente.exames}</p>
-      <p><strong>Orçamento:</strong> R$ {paciente.orcamento}</p>
+      <p><strong>Orçamento:</strong> R$ {parseFloat(paciente.orcamento).toFixed(2)}</p>
+      <p><strong>Data de Cadastro:</strong> {new Date(paciente.dataCadastro).toLocaleString()}</p>
 
       <hr />
 
-      <h3>Exames enviados</h3>
+      <h3>Enviar novos exames</h3>
       <input type="file" multiple onChange={handleUpload} accept=".jpg,.jpeg,.png,.dcm" />
       <ul>
-        {exames.map((file, idx) => (
+        {examesEnviados.map((file, idx) => (
           <li key={idx}>{file.name}</li>
         ))}
       </ul>
@@ -38,4 +39,4 @@ function DetalhesPaciente() {
   );
 }
 
-export default DetalhesPaciente;
+export default DetalhesPacientes;

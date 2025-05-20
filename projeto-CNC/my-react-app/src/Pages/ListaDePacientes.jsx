@@ -1,49 +1,73 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { PacienteContext } from "../context/PacienteContext";
 
 function ListaDePacientes() {
   const { pacientes } = useContext(PacienteContext);
-  const [pacienteSelecionado, setPacienteSelecionado] = useState(null);
   const navigate = useNavigate();
+
+  const irParaDetalhes = (id) => {
+    navigate(`/paciente/${id}`);
+  };
 
   return (
     <div className="login-container">
-      <div className="login-form" style={{ color: "black" }}>
+      <div className="login-form" style={{ color: "black", width: "100%" }}>
         <h2 className="titulo">Lista de Pacientes</h2>
 
         {pacientes.length === 0 ? (
           <p>Nenhum paciente cadastrado.</p>
         ) : (
-          <ul>
-            {pacientes.map((paciente) => (
-              <li
-                key={paciente.id}
-                style={{ cursor: "pointer", marginBottom: "10px" }}
-                onClick={() => setPacienteSelecionado(paciente)}
-              >
-                {paciente.nome} - {new Date(paciente.dataCadastro).toLocaleDateString()}
-              </li>
-            ))}
-          </ul>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#f2f2f2" }}>
+                <th style={{ padding: "10px", textAlign: "left" }}>Nome do Paciente</th>
+                <th style={{ padding: "10px", textAlign: "left" }}>Data do Cadastro</th>
+                <th style={{ padding: "10px", textAlign: "left" }}>Status</th>
+                <th style={{ padding: "10px", textAlign: "left" }}>Exames</th>
+              </tr>
+            </thead>
+            <tbody>
+              {pacientes.map((paciente) => (
+                <tr
+                  key={paciente.id}
+                  onClick={() => irParaDetalhes(paciente.id)}
+                  style={{ cursor: "pointer", borderBottom: "1px solid #ccc" }}
+                >
+                  <td style={{ padding: "10px" }}>{paciente.nome}</td>
+                  <td style={{ padding: "10px" }}>{new Date(paciente.dataCadastro).toLocaleDateString()}</td>
+                  <td style={{ padding: "10px" }}>
+                    <span style={{ backgroundColor: "#ffcc00", padding: "4px 8px", borderRadius: "4px" }}>Aguardando</span>
+                  </td>
+                  <td style={{ padding: "10px" }}>
+                    {paciente.exames ? paciente.exames.split(",").map((exame, i) => (
+                      <span
+                        key={i}
+                        style={{
+                          backgroundColor: "#f0ad4e",
+                          color: "white",
+                          padding: "4px 6px",
+                          marginRight: "5px",
+                          borderRadius: "3px",
+                          fontSize: "12px"
+                        }}
+                      >
+                        {exame.trim()}
+                      </span>
+                    )) : "Nenhum"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
 
-        <button onClick={() => navigate("/pacientes/novo")}>
+        <button
+          onClick={() => navigate("/pacientes/novo")}
+          style={{ marginTop: "20px" }}
+        >
           Cadastrar Novo Paciente
         </button>
-
-        {pacienteSelecionado && (
-          <div style={{ marginTop: "20px", borderTop: "1px solid #ccc", paddingTop: "10px" }}>
-            <h3>Detalhes do Paciente</h3>
-            <p><strong>Nome:</strong> {pacienteSelecionado.nome}</p>
-            <p><strong>Endereço:</strong> {pacienteSelecionado.endereco}</p>
-            <p><strong>Telefone:</strong> {pacienteSelecionado.telefone}</p>
-            <p><strong>Procedimento:</strong> {pacienteSelecionado.procedimento}</p>
-            <p><strong>Exames:</strong> {pacienteSelecionado.exames}</p>
-            <p><strong>Orçamento:</strong> R$ {parseFloat(pacienteSelecionado.orcamento).toFixed(2)}</p>
-            <p><strong>Data de Cadastro:</strong> {new Date(pacienteSelecionado.dataCadastro).toLocaleString()}</p>
-          </div>
-        )}
       </div>
     </div>
   );

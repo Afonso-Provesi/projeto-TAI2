@@ -6,17 +6,19 @@ import Sobre from "./Pages/Sobre";
 import MainLayout from "./Layout/MainLayout.jsx";
 import Cadastrar from "./Pages/TelaCadastro.jsx";
 import ListaPacientes from "./Pages/ListaDePacientes.jsx";
+import DetalhesPacientes from "./Pages/DetalhesPacientes.jsx";
 
 function App() {  
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/cadastrar" element={<Cadastrar/>}/>
+        <Route path="/cadastrar" element={<Cadastrar />} />
         <Route element={<MainLayout />}>
           <Route path="/agenda" element={<Agenda />} />
           <Route path="/paciente" element={<ListaPacientes />} />
           <Route path="/pacientes/novo" element={<CadastroPacientes />} />
+          <Route path="/paciente/:id" element={<DetalhesPacientes />} />
           <Route path="/sobre" element={<Sobre />} />
         </Route>
       </Routes>
