@@ -5,8 +5,9 @@ import { PacienteContext } from "../context/PacienteContext";
 
 function CadastroPacientes() {
   const [nome, setNome] = useState("");
-  const [endereco, setEndereco] = useState("");
   const [telefone, setTelefone] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [profissional, setProfissional] = useState("");
   const [procedimento, setProcedimento] = useState("");
   const [exames, setExames] = useState("");
   const [orcamento, setOrcamento] = useState("");
@@ -17,70 +18,53 @@ function CadastroPacientes() {
   const handleCadastro = (e) => {
     e.preventDefault();
 
-    if (nome && endereco && telefone && procedimento && orcamento) {
+    if (nome && telefone && profissional && procedimento) {
       const novoPaciente = {
         id: Date.now(),
         nome,
-        endereco,
         telefone,
+        endereco,
+        profissional,
         procedimento,
         exames,
         orcamento,
+        status: "Ativo",
         dataCadastro: new Date().toISOString()
       };
 
       adicionarPaciente(novoPaciente);
       alert("Paciente cadastrado com sucesso!");
-      navigate("/paciente");
+      navigate("/pacientes");
     } else {
-      alert("Preencha todos os campos obrigatórios");
+      alert("Preencha os campos obrigatórios.");
     }
   };
 
   return (
-    <div className="login-container">
-      <form className="login-form" onSubmit={handleCadastro}>
-        <h2 className="titulo">Cadastro de Paciente</h2>
+    <div className="pagina">
+      <form className="form-cadastro" onSubmit={handleCadastro}>
+        <h2 className="titulo">Novo Paciente</h2>
 
-        <input
-          type="text"
-          placeholder="Nome do Paciente"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Endereço"
-          value={endereco}
-          onChange={(e) => setEndereco(e.target.value)}
-        />
-        <input
-          type="tel"
-          placeholder="Telefone"
-          value={telefone}
-          onChange={(e) => setTelefone(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Procedimentos"
-          value={procedimento}
-          onChange={(e) => setProcedimento(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Exames"
-          value={exames}
-          onChange={(e) => setExames(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Orçamento (R$)"
-          value={orcamento}
-          onChange={(e) => setOrcamento(e.target.value)}
-          step="0.01"
-        />
+        <div className="secao">
+          <h3>Dados Pessoais</h3>
+          <input type="text" placeholder="Nome do Paciente *" value={nome} onChange={(e) => setNome(e.target.value)} />
+          <input type="text" placeholder="Telefone *" value={telefone} onChange={(e) => setTelefone(e.target.value)} />
+          <input type="text" placeholder="Endereço" value={endereco} onChange={(e) => setEndereco(e.target.value)} />
+        </div>
 
-        <button type="submit">Cadastrar Paciente</button>
+        <div className="secao">
+          <h3>Informações de Atendimento</h3>
+          <input type="text" placeholder="Profissional da Saúde *" value={profissional} onChange={(e) => setProfissional(e.target.value)} />
+          <input type="text" placeholder="Procedimento *" value={procedimento} onChange={(e) => setProcedimento(e.target.value)} />
+          <input type="text" placeholder="Exames" value={exames} onChange={(e) => setExames(e.target.value)} />
+        </div>
+
+        <div className="secao">
+          <h3>Financeiro</h3>
+          <input type="number" placeholder="Orçamento (R$)" value={orcamento} onChange={(e) => setOrcamento(e.target.value)} step="0.01" />
+        </div>
+
+        <button type="submit" className="botao-novo">Cadastrar Paciente</button>
       </form>
     </div>
   );

@@ -172,19 +172,6 @@ body {
   background-color: #f9fafb;
 }
 
-.status {
-  background-color: #facc15;
-  padding: 6px 12px;
-  border-radius: 6px;
-  color: #92400e;
-  font-size: 13px;
-}
-
-.status.entregue {
-  background-color: #4ade80;
-  color: #065f46;
-}
-
 .btn-acao {
   background-color: #2563eb;
   color: white;
@@ -313,7 +300,7 @@ body {
   top: 0;              /* topo da página */
   left: 250px;         /* logo ao lado da sidebar principal de 250px */
   height: 101.85vh;       /* altura total da viewport */
-  width: 250px;
+  width: 230px;
   background-color: #263143;
   border-radius: 12px;     
   margin: 0;           /* remove margens */
@@ -516,6 +503,137 @@ select:focus {
     border-radius: 8px;
     padding: 10px;
   }
+
+  .pagina {
+    padding: 20px;
+  }
+  
+  .titulo {
+    margin-bottom: 20px;
+  }
+  
+  .cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .botao-novo {
+    padding: 8px 16px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .botao-novo:hover {
+    background-color: #005fa3;
+  }
+  
+  .tabela {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .tabela th, .tabela td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .tabela th {
+    background-color: #f2f2f2;
+  }
+  
+  .status {
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+  
+  .status.ativo {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .status.inativo {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  .detalhes-container {
+    max-width: 600px;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .detalhes-container p{
+    margin-left: 10px;
+    margin-bottom: 5px;
+    
+  }
+
+  .detalhes-container h2{
+    color: #333;
+  }
+  
+  .botao-status {
+    padding: 8px 16px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+  
+  .botao-status:hover {
+    background-color: #5a6268;
+  }
+  
+  .botao-ver, .botao-voltar {
+    padding: 6px 12px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .botao-ver:hover, .botao-voltar:hover {
+    background-color: #005fa3;
+  }
+  
+  .form-cadastro {
+    max-width: 700px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  
+  .form-cadastro input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+  }
+  
+  .secao {
+    margin-bottom: 24px;
+  }
+  
+  .secao h3 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  
 
 @media (max-width: 768px) {
   .sidebar {
