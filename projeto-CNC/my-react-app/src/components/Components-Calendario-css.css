@@ -76,38 +76,30 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     color: #213547;
   }
-  
-  
 
   .container {
     display: flex;
     height: 100vh;
-    background-color: #f0f6ff;
     font-family: 'Inter', sans-serif;
   }
   
   .sidebar {
-    background-color: #e0f2fe;
     padding: 16px;
     border-radius: 12px;
     width: 220px;
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: #1e3a8a; /* texto padrão */
   }
   
   .sidebar h2,
   .sidebar label {
-    color: white;
     font-weight: 600;
     margin-bottom: 4px;
   }
   
   .sidebar select,
   .sidebar button {
-    background-color: #bfdbfe;
-    color: #1e3a8a;
     border: none;
     padding: 8px 10px;
     border-radius: 8px;
@@ -119,11 +111,6 @@
   .sidebar select:focus,
   .sidebar button:focus {
     outline: none;
-    background-color: #93c5fd;
-  }
-  
-  .sidebar button:hover {
-    background-color: #93c5fd;
   }
   
   .modal-overlay {

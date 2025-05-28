@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import "../components/TelaLogin.css";
+import "../App.css";
 import { PacienteContext } from "../context/PacienteContext";
 
 function CadastroPacientes() {

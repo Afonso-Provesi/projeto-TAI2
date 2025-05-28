@@ -1,28 +1,37 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./Pages/TelaLogin.jsx";
-import Agenda from "./Pages/Calendario.jsx";
-import CadastroPacientes from "./Pages/CadastroPacientes";
-import Sobre from "./Pages/Sobre";
-import MainLayout from "./Layout/MainLayout.jsx";
-import Cadastrar from "./Pages/TelaCadastro.jsx";
-import ListaPacientes from "./Pages/ListaDePacientes.jsx";
-import DetalhesPacientes from "./Pages/DetalhesPacientes.jsx";
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Sidebar from './components/Sidebar';
+import Agenda from './Pages/Agenda';
+import ListaPacientes from './Pages/Pacientes';
+import CadastroPacientes from './Pages/CadastroPacientes';
+import Sobre from './Pages/Sobre';
+import DetalhesPacientes from './Pages/DetalhesPacientes';
+import Cadastro from './Pages/TelaCadastro'
+import './App.css';
 
-function App() {  
+function App() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/cadastrar" element={<Cadastrar />} />
-        <Route element={<MainLayout />}>
-          <Route path="/agenda" element={<Agenda />} />
-          <Route path="/paciente" element={<ListaPacientes />} />
-          <Route path="/pacientes/novo" element={<CadastroPacientes />} />
-          <Route path="/paciente/:id" element={<DetalhesPacientes />} />
-          <Route path="/sobre" element={<Sobre />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Router>
+      <div className="app">
+        <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        <div className={`content ${isSidebarOpen ? '' : 'content-expanded'}`}>
+          <Routes>
+            <Route path="/" element={<Agenda />} />
+            <Route path="/cadastro" element={<Cadastro />} />
+            <Route path="/sobre" element={<Sobre />} />
+            <Route path="/pacientes" element={<ListaPacientes />} />
+            <Route path="/pacientes/novo" element={<CadastroPacientes />} />
+            <Route path="/paciente/:id" element={<DetalhesPacientes />} />          
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
 }
 

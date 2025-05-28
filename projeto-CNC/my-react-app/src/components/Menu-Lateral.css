@@ -1,33 +1,72 @@
+/* Sidebar */
 .sidebar {
-    background-color: #2b6cb0;
-    color: white;
-    width: 220px;
-    height: 100vh;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .sidebar .logo {
-    font-size: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .sidebar nav {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .sidebar nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.2s;
-  }
-  
-  .sidebar nav a:hover {
-    color: #bee3f8;
-  }
-  
+  background-color: #2563eb;
+  color: white;
+  width: 220px;
+  transition: width 0.3s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* Botão retrátil */
+.toggle-area {
+  position: absolute;
+  top: 15px;
+  right: -15px;
+  width: 30px;
+  height: 30px;
+  background-color: #1d4ed8;
+  color: white;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 100;
+}
+
+.sidebar-content {
+  padding: 20px 10px;
+}
+
+.sidebar .logo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  white-space: nowrap;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.sidebar ul li a:hover {
+  text-decoration: underline;
+}
+
+.sidebar.collapsed .logo {
+  display: none;
+}
+
+.sidebar.collapsed ul li a {
+  display: none;
+}
