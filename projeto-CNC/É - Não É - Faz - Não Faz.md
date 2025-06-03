@@ -1,25 +1,60 @@
-O que é:
-Sistema de Gestão de Clientes – Um sistema digital para gerenciar os registros dos pacientes e suas interações com a clínica odontológica.
-Interface para Funcionários – Um painel ou área onde os funcionários da clínica podem acessar as informações dos pacientes, agendar consultas, etc.
-Armazenamento de Dados de Pacientes – Registro de informações pessoais, histórico médico, tratamentos realizados, datas de consultas, e outros detalhes relevantes.
-Gestão de Agendamentos e Consultas – A funcionalidade de marcar, editar, e cancelar consultas, bem como manter o histórico de visitas.
+É - Não é - Faz - Não faz – medAgenda para a Clínica Zucato
 
-O que não é:
-Aplicativo para Pacientes – O sistema não será um aplicativo direto para os pacientes agendarem suas consultas.
-Sistema de Vendas – Não se trata de um sistema para a venda direta de produtos odontológicos ou outros itens. O foco é o atendimento e gestão de pacientes.
-Gestão de Financeiro Completo – No máximo terá um controle de se foi pago ou não.
-Ferramenta de Diagnóstico – O sistema não irá fornecer diagnósticos automáticos ou substituição do julgamento clínico, ele serve apenas como ferramenta de apoio ao atendimento.
+✅ O que é:
 
-O que faz:
-Armazenar Informações de Pacientes – Coleta e organiza dados como nome, idade, histórico médico, alergias, tratamentos anteriores e outros dados essenciais.
-Agendamento e Gerenciamento de Consultas – Permite que os funcionários marquem, modifiquem e acompanhem as consultas de cada paciente.
-Gestão de Histórico Médico – Permitir acessem o histórico de cada paciente, com registros de diagnósticos anteriores, tratamentos realizados e procedimentos futuros.
-Envio de Lembretes – Pode incluir notificações ou lembretes automáticos para os pacientes sobre consultas agendadas.
-Relatórios e Estatísticas – Geração de relatórios sobre atendimentos, frequência de pacientes, tipos de tratamentos realizados e outras métricas relevantes para a clínica.
-Controle de Fluxo de Trabalho – Permite que diferentes membros da equipe acessem funções específicas, dependendo da sua autorização, garantindo a eficiência do fluxo de trabalho.
+    Sistema de Gestão de Pacientes
+    Um sistema digital desenvolvido inicialmente de forma exclusiva para a Clínica Zucato, com o objetivo de gerenciar registros de pacientes, consultas e interações com a clínica.
 
-O que não faz:
-Substitui os Dentistas – Não substitui a necessidade de um dentista para realizar exames, diagnósticos e tratamentos.
-Armazenamento de Imagens Dentárias – Se não for o caso, não será um sistema para armazenar imagens de raio-X ou outros exames odontológicos.
-Integração Completa com Laboratórios Externos – O sistema não será responsável por integrar diretamente com sistemas de laboratórios ou outros terceiros.
-Realizar Pagamentos ou Faturamento Completo – O sistema não será responsável pelo processamento de pagamentos, cobranças ou controle financeiro de forma completa.
+    Interface para Funcionários
+    Um painel acessível via navegador, onde os colaboradores da clínica poderão agendar, visualizar e gerenciar informações relacionadas aos atendimentos.
+
+    Armazenamento de Dados de Pacientes
+    Organização de informações essenciais como dados pessoais, histórico clínico, tratamentos realizados, datas de consultas e anotações relevantes.
+
+    Gestão de Agendamentos e Consultas
+    Funcionalidade para marcar, editar e cancelar consultas, com histórico completo de visitas e atendimentos anteriores.
+
+    Sistema Web (site)
+    Desenvolvido como um sistema baseado em navegador, para facilitar o acesso em diferentes dispositivos e locais.
+
+❌ O que não é:
+
+    Aplicativo para Pacientes
+    O medAgenda não será um app para que os pacientes agendem diretamente suas consultas. O controle permanece com a equipe da clínica.
+
+    Sistema de Vendas
+    Não se destina à venda de produtos odontológicos ou itens relacionados.
+
+    Sistema Financeiro Completo
+    Não possui controle financeiro detalhado. Apenas indica se um atendimento foi pago ou não.
+
+    Ferramenta de Diagnóstico
+    Não realiza diagnósticos automáticos ou substitui o julgamento clínico do profissional.
+
+    Sistema de Backup Interno
+    O backup de dados será opcional e poderá ser configurado por meio de serviços de hospedagem confiáveis do mercado, sem desenvolvimento de uma funcionalidade de backup própria.
+
+⚙️ O que faz:
+
+    Armazenamento Dados de Pacientes
+    Registra informações como nome, idade, histórico médico, tratamentos anteriores e observações clínicas.
+
+    Gestão de Agendamentos
+    Permite agendar, reagendar e cancelar atendimentos de forma prática e organizada.
+
+    Consulta ao Histórico Médico
+    Acesso rápido ao histórico do paciente, incluindo procedimentos anteriores e futuros agendados.
+
+🚫 O que não faz:
+
+    Substituir o Dentista
+    O sistema não realiza diagnósticos nem interfere na decisão clínica.
+
+    Armazenamento de Imagens Odontológicas
+    Não inclui armazenamento de imagens como radiografias ou exames visuais, a menos que venha a ser implementado sob demanda.
+
+    Integração com Laboratórios Externos
+    Não realiza comunicação direta com sistemas de terceiros como laboratórios, por ora.
+
+    Processamento de Pagamentos
+    Não realiza transações financeiras ou controle completo de faturamento.
