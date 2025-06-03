@@ -1,4 +1,4 @@
-Visão de Produto – medAgenda para a Clínica Zucato
+Visão de Produto – Sistema medAgenda
 
 Para: Clínica Zucato
 Cujo foco é: agendamento de consultas, gestão de pacientes, controle de tempo, facilidade na consulta ao histórico e controle de atendimentos,

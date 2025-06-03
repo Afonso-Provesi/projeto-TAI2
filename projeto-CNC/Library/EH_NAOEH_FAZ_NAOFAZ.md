@@ -1,4 +1,4 @@
-É - Não é - Faz - Não faz – medAgenda para a Clínica Zucato
+É - Não é - Faz - Não faz – Sistema medAgenda
 
 ✅ O que é:
 
