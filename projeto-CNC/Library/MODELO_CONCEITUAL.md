@@ -75,7 +75,49 @@ Com a implantação do medAgenda, espera-se que a clínica tenha ganhos signific
 | Agendamento de consultas	 | Não é permitido agendar dois atendimentos no mesmo horário para o mesmo profissional. |
 | Alteração de agendamento	| Consultas só podem ser alteradas com um profissional. |
 | Upload de arquivos	| Os arquivos anexados devem ter no máximo 10MB e estar nos formatos PDF, JPG ou PNG. |
+| Acesso ao sistema	| Apenas usuários com login e senha cadastrados previamente podem acessar o sistema. |
 
 ## Nome entidade e atributos
+### 1. Paciente
+* cpf_paciente (PK)
+* nome_paciente
+* data_nascimento_paciente
+* telefone_paciente
+* email_paciente
+* endereco_paciente
 
-##  Diagrama entidade-relacionamento
+### 2. Prontuário
+* id_prontuario (PK)
+* cpf_paciente_fk (FK para Paciente)
+* data_abertura_prontuario
+* observacoes_prontuario
+* documentos_gerais (multivalorado - arquivos, imagens, etc)
+
+### 3. Consulta
+* id_consulta (PK)
+* dataConsulta
+* horaConsulta
+* cpfPaciente (FK)
+* cpfFuncionario (FK)
+* tipoConsulta
+* observacoesConsulta
+* documentosConsulta (lista de arquivos)
+
+### 4. Funcionário
+* cpf_funcionario (PK)
+* nome_funcionario
+* telefone_funcionario
+* email_funcionario
+
+## Relacionamentos 
+|Entidades envolvidas|Nome do Relacionamento|Cardinalidade|
+|-------------------|---------------------|-------------|
+|Paciente — Consulta|Paciente marca Consulta|Paciente (1,1)—(0,N) Consulta|
+|Funcionário — Consulta|Funcionário atende Consulta|Funcionário (1,1)—(0,N) Consulta|
+|Paciente — Prontuário|Paciente possui Prontuário|Paciente (1,1)—(1,1) Prontuário|
+|Prontuário — Consulta|Prontuário compõe Consulta|Prontuário (1,1)—(0,N) Consulta|
+
+##  Diagrama entidade-relacionamento sem atributos
+![Alt text][def]
+
+[def]: MODELO.png
