@@ -99,6 +99,7 @@ Com a implantação do medAgenda, espera-se que a clínica tenha ganhos signific
 * horaConsulta
 * cpfPaciente (FK)
 * cpfFuncionario (FK)
+* idProntuario (FK)
 * tipoConsulta
 * observacoesConsulta
 * documentosConsulta (lista de arquivos)
