@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components/TelaLogin.css";
 
+const API_BASE = "http://localhost:8000";
+
 function TelaLogin() {
   const [usuario, setUsuario] = useState("");
   const [senha, setSenha] = useState("");
@@ -9,12 +11,28 @@ function TelaLogin() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Simples verificação fictícia
-    if (usuario && senha) {
-      navigate("/agenda");
-    } else {
+
+    if (!usuario || !senha) {
       alert("Preencha usuário e senha");
+      return;
     }
+
+    fetch(`${API_BASE}/usuarios/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: usuario, senha }),
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Usuário ou senha inválidos");
+        return res.json();
+      })
+      .then((data) => {
+        alert(data.msg || "Login realizado com sucesso!");
+        navigate("/agenda");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
   };
 
   return (
@@ -33,14 +51,12 @@ function TelaLogin() {
           value={senha}
           onChange={(e) => setSenha(e.target.value)}
         />
-        <button type="submit" style={{ marginBottom: '10px' }}>
+        <button type="submit" style={{ marginBottom: "10px" }}>
           Entrar
         </button>
-        <button type="button" onClick={() => navigate('/cadastrar')}>
+        <button type="button" onClick={() => navigate("/cadastrar")}>
           Cadastrar-se
         </button>
-
-
       </form>
     </div>
   );

@@ -5,7 +5,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import { FaCalendarAlt, FaPlus, FaTrash, FaCog } from "react-icons/fa";
-import "../App.css"
+import "../App.css";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 const localizer = momentLocalizer(moment);
@@ -13,19 +13,10 @@ const localizer = momentLocalizer(moment);
 const gerarCorAleatoria = () =>
   "#" + Math.floor(Math.random() * 16777215).toString(16);
 
-const salvarEventosLocal = (agendas) => {
-  localStorage.setItem("agendasSalvas", JSON.stringify(agendas));
-};
-
-const carregarEventosLocal = () => {
-  const dados = localStorage.getItem("agendasSalvas");
-  return dados ? JSON.parse(dados) : null;
-};
-
 function Calendario() {
   const [dataAtual, setDataAtual] = useState(new Date());
   const [agendas, setAgendas] = useState([
-    { nome: "Murilo Zucato", cor: gerarCorAleatoria(), eventos: [] },
+    { nome: "Agenda Principal", cor: gerarCorAleatoria(), eventos: [] }
   ]);
   const [agendaSelecionada, setAgendaSelecionada] = useState(0);
   const [eventSelected, setEventSelected] = useState(null);
@@ -36,24 +27,27 @@ function Calendario() {
   const [configAberta, setConfigAberta] = useState(false);
 
   useEffect(() => {
-    const dadosSalvos = carregarEventosLocal();
-    if (dadosSalvos) setAgendas(dadosSalvos);
-  }, []);
-
-  useEffect(() => {
-    salvarEventosLocal(agendas);
-  }, [agendas]);
-
-  useEffect(() => {
-    const escFunction = (e) => {
-      if (e.key === "Escape") {
-        setNovoEvento(null);
-        setEventSelected(null);
-        setConfigAberta(false);
+    async function carregarEventosAPI() {
+      try {
+        const resposta = await fetch("http://localhost:8000/compromissos");
+        const dados = await resposta.json();
+        setAgendas([
+          {
+            nome: "Agenda Principal",
+            cor: gerarCorAleatoria(),
+            eventos: dados.map(e => ({
+              ...e,
+              start: new Date(e.start),
+              end: new Date(e.end)
+            }))
+          }
+        ]);
+      } catch (erro) {
+        console.error("Erro ao buscar compromissos:", erro);
       }
-    };
-    window.addEventListener("keydown", escFunction);
-    return () => window.removeEventListener("keydown", escFunction);
+    }
+
+    carregarEventosAPI();
   }, []);
 
   const eventMove = ({ event, start, end }) => {
@@ -74,33 +68,48 @@ function Calendario() {
     setTituloEvento("");
   };
 
-  const handleSalvarNovoEvento = () => {
+  const handleSalvarNovoEvento = async () => {
     if (!tituloEvento.trim()) return;
 
     const start = novoEvento.start;
     const end = moment(start).add(duracaoMinutos, "minutes").toDate();
 
     const novo = {
-      id: new Date().getTime(),
       title: tituloEvento,
-      start,
-      end,
+      start: start.toISOString(),
+      end: end.toISOString()
     };
 
-    const updatedAgendas = agendas.map((agenda, index) => {
-      if (index === agendaSelecionada) {
-        return {
-          ...agenda,
-          eventos: [...agenda.eventos, novo],
-        };
-      }
-      return agenda;
-    });
+    try {
+      const resposta = await fetch("http://localhost:8000/compromissos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novo)
+      });
 
-    setAgendas(updatedAgendas);
-    setNovoEvento(null);
-    setTituloEvento("");
-    setDuracaoMinutos(30);
+      const eventoSalvo = await resposta.json();
+
+      const updatedAgendas = agendas.map((agenda, index) => {
+        if (index === agendaSelecionada) {
+          return {
+            ...agenda,
+            eventos: [...agenda.eventos, {
+              ...eventoSalvo,
+              start: new Date(eventoSalvo.start),
+              end: new Date(eventoSalvo.end)
+            }]
+          };
+        }
+        return agenda;
+      });
+
+      setAgendas(updatedAgendas);
+      setNovoEvento(null);
+      setTituloEvento("");
+      setDuracaoMinutos(30);
+    } catch (erro) {
+      console.error("Erro ao salvar evento:", erro);
+    }
   };
 
   const handleDeletarAgenda = () => {
@@ -115,7 +124,7 @@ function Calendario() {
     if (nome) {
       setAgendas([
         ...agendas,
-        { nome, eventos: [], cor: gerarCorAleatoria() },
+        { nome, eventos: [], cor: gerarCorAleatoria() }
       ]);
       setAgendaSelecionada(agendas.length);
     }
@@ -125,22 +134,30 @@ function Calendario() {
     setEventSelected(event);
   };
 
-  const handleDeleteEvent = () => {
-    const updatedAgendas = agendas.map((agenda, index) => {
-      if (index === agendaSelecionada) {
-        const updatedEventos = agenda.eventos.filter(
-          (e) => e.id !== eventSelected.id
-        );
-        return {
-          ...agenda,
-          eventos: updatedEventos,
-        };
-      }
-      return agenda;
-    });
+  const handleDeleteEvent = async () => {
+    try {
+      await fetch(`http://localhost:8000/compromissos/${eventSelected.id}`, {
+        method: "DELETE"
+      });
 
-    setAgendas(updatedAgendas);
-    setEventSelected(null);
+      const updatedAgendas = agendas.map((agenda, index) => {
+        if (index === agendaSelecionada) {
+          const updatedEventos = agenda.eventos.filter(
+            (e) => e.id !== eventSelected.id
+          );
+          return {
+            ...agenda,
+            eventos: updatedEventos
+          };
+        }
+        return agenda;
+      });
+
+      setAgendas(updatedAgendas);
+      setEventSelected(null);
+    } catch (erro) {
+      console.error("Erro ao deletar evento:", erro);
+    }
   };
 
   const eventPropGetter = () => {
@@ -151,8 +168,8 @@ function Calendario() {
         borderRadius: "6px",
         color: "white",
         border: "none",
-        padding: "2px 6px",
-      },
+        padding: "2px 6px"
+      }
     };
   };
 
@@ -176,7 +193,6 @@ function Calendario() {
           <select
             value={agendaSelecionada}
             onChange={(e) => setAgendaSelecionada(Number(e.target.value))}
-            style={{widht:"50px",height:"20px"}}
           >
             {agendas.map((agenda, index) => (
               <option key={index} value={index}>
@@ -209,10 +225,7 @@ function Calendario() {
           )}
         </div>
 
-        <div
-          style={{ flex: 1, padding: "16px" }}
-          className="main-content"
-        >
+        <div style={{ flex: 1, padding: "16px" }} className="main-content">
           <DragAndDropCalendar
             view={view}
             onNavigate={(newDate) => setDataAtual(newDate)}
@@ -235,27 +248,11 @@ function Calendario() {
             <div className="modal-overlay">
               <div className="modal">
                 <h3>Detalhes do Evento</h3>
-                <p>
-                  <strong>Nome:</strong> {eventSelected.title}
-                </p>
-                <p>
-                  <strong>Início:</strong>{" "}
-                  {moment(eventSelected.start).format("DD/MM/YYYY HH:mm")}
-                </p>
-                <p>
-                  <strong>Fim:</strong>{" "}
-                  {moment(eventSelected.end).format("DD/MM/YYYY HH:mm")}
-                </p>
-                <p>
-                  <strong>Agenda:</strong> {agendas[agendaSelecionada].nome}
-                </p>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginTop: "1rem",
-                  }}
-                >
+                <p><strong>Nome:</strong> {eventSelected.title}</p>
+                <p><strong>Início:</strong> {moment(eventSelected.start).format("DD/MM/YYYY HH:mm")}</p>
+                <p><strong>Fim:</strong> {moment(eventSelected.end).format("DD/MM/YYYY HH:mm")}</p>
+                <p><strong>Agenda:</strong> {agendas[agendaSelecionada].nome}</p>
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
                   <button onClick={() => setEventSelected(null)}>Fechar</button>
                   <button
                     style={{ backgroundColor: "#d9534f", color: "white" }}
@@ -272,9 +269,7 @@ function Calendario() {
             <div className="modal-overlay">
               <div className="modal">
                 <h3>Novo Evento</h3>
-                <p>
-                  Início: {moment(novoEvento.start).format("DD/MM/YYYY HH:mm")}
-                </p>
+                <p>Início: {moment(novoEvento.start).format("DD/MM/YYYY HH:mm")}</p>
 
                 <label>Duração:</label>
                 <select
