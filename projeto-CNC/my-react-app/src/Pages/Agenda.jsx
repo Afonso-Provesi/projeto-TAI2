@@ -227,10 +227,10 @@ function Calendario() {
 
         <div style={{ flex: 1, padding: "16px" }} className="main-content">
           <DragAndDropCalendar
-            view={view}
+            date={dataAtual}   // 🔥 Isso controla corretamente o botão Today, Next e Back
+            view={view}        // 🔥 Isso garante que a view permaneça correta
             onNavigate={(newDate) => setDataAtual(newDate)}
             onView={(newView) => setView(newView)}
-            defaultDate={moment().toDate()}
             events={agendas[agendaSelecionada].eventos}
             localizer={localizer}
             resizable
