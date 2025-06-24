@@ -28,27 +28,54 @@ function Calendario() {
 
   useEffect(() => {
     async function carregarEventosAPI() {
+      const nomeAgenda = agendas[agendaSelecionada]?.nome || "Agenda Principal";
       try {
-        const resposta = await fetch("http://localhost:8000/compromissos");
+        const resposta = await fetch(`http://localhost:8000/compromissos?agenda=${encodeURIComponent(nomeAgenda)}`);
         const dados = await resposta.json();
-        setAgendas([
-          {
-            nome: "Agenda Principal",
-            cor: gerarCorAleatoria(),
-            eventos: dados.map(e => ({
-              ...e,
-              start: new Date(e.start),
-              end: new Date(e.end)
-            }))
-          }
-        ]);
+        setAgendas((prevAgendas) =>
+          prevAgendas.map((agenda, index) =>
+            index === agendaSelecionada
+              ? {
+                  ...agenda,
+                  eventos: dados.map((e) => ({
+                    ...e,
+                    start: new Date(e.start),
+                    end: new Date(e.end),
+                })),
+              }
+            : agenda
+          )
+        );
       } catch (erro) {
         console.error("Erro ao buscar compromissos:", erro);
       }
     }
 
     carregarEventosAPI();
-  }, []);
+  }, [agendaSelecionada]);
+
+  useEffect(() => {
+  async function carregarAgendasDoBackend() {
+    try {
+      const resposta = await fetch("http://localhost:8000/agendas");
+      const nomes = await resposta.json();
+
+      const agendasCarregadas = nomes.map((nome) => ({
+        nome,
+        cor: gerarCorAleatoria(),
+        eventos: []  // Eventos serão carregados depois pelo outro useEffect
+      }));
+
+      setAgendas(agendasCarregadas);
+      setAgendaSelecionada(0);
+    } catch (erro) {
+      console.error("Erro ao carregar agendas:", erro);
+    }
+  }
+
+  carregarAgendasDoBackend();
+}, []);
+
 
   const eventMove = ({ event, start, end }) => {
     const updatedAgendas = agendas.map((agenda, index) => {
@@ -77,7 +104,8 @@ function Calendario() {
     const novo = {
       title: tituloEvento,
       start: start.toISOString(),
-      end: end.toISOString()
+      end: end.toISOString(),
+      agenda: agendas[agendaSelecionada].nome
     };
 
     try {
@@ -112,23 +140,48 @@ function Calendario() {
     }
   };
 
-  const handleDeletarAgenda = () => {
-    if (agendas.length <= 1) return;
+  const handleDeletarAgenda = async () => {
+  if (agendas.length <= 1) return;
+
+  const nomeAgenda = agendas[agendaSelecionada].nome;
+
+  try {
+    // Requisição para deletar do backend
+    await fetch(`http://localhost:8000/agendas/${encodeURIComponent(nomeAgenda)}`, {
+      method: "DELETE",
+    });
+
+    // Atualiza o estado no frontend
     const novasAgendas = agendas.filter((_, i) => i !== agendaSelecionada);
     setAgendas(novasAgendas);
     setAgendaSelecionada(0);
-  };
+  } catch (erro) {
+    console.error("Erro ao excluir agenda no servidor:", erro);
+    alert("Erro ao excluir agenda no servidor.");
+  }
+};
 
-  const handleAdicionarAgenda = () => {
-    const nome = prompt("Digite o nome da nova agenda:");
-    if (nome) {
-      setAgendas([
-        ...agendas,
-        { nome, eventos: [], cor: gerarCorAleatoria() }
-      ]);
-      setAgendaSelecionada(agendas.length);
-    }
-  };
+
+  const handleAdicionarAgenda = async () => {
+  const nome = prompt("Digite o nome da nova agenda:");
+  if (!nome) return;
+
+  try {
+    // Cria a agenda no backend
+    await fetch(`http://localhost:8000/agendas/?nome=${encodeURIComponent(nome)}`, {
+      method: "POST"
+    });
+
+    // Atualiza a lista no frontend
+    const novaAgenda = { nome, eventos: [], cor: gerarCorAleatoria() };
+    setAgendas((prev) => [...prev, novaAgenda]);
+    setAgendaSelecionada(agendas.length);
+  } catch (erro) {
+    console.error("Erro ao criar agenda:", erro);
+    alert("Erro ao criar agenda no servidor");
+  }
+};
+
 
   const handleSelectEvent = (event) => {
     setEventSelected(event);

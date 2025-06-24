@@ -23,15 +23,14 @@ function AppContent() {
   const isLoginPage = location.pathname === '/';
   const isCadastroPage = location.pathname === '/cadastro';
 
-
   return (
     <div className="app">
       {/* Renderiza a Sidebar somente se não estiver na página de login */}
-      {(!isLoginPage && !isCadastroPage) && (
+      {!isLoginPage && !isCadastroPage &&(
         <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
       )}
       
-      <div className={`content ${!isLoginPage && !isSidebarOpen ? 'content-expanded' : ''}`}>
+      <div className={`content ${!isLoginPage && !isCadastroPage && !isSidebarOpen ? 'content-expanded' : ''}`}>
         <Routes>
           <Route path="/" element={<TelaLogin />} />
           <Route path="/agenda" element={<Agenda />} />
@@ -55,4 +54,4 @@ function App() {
   );
 }
 
-export default App;
+export default App;

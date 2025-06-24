@@ -25,6 +25,7 @@ function CadastroEmpresa() {
       .then((data) => {
         alert(data.msg || "Cadastro realizado com sucesso!");
         navigate("/");
+
       })
       .catch((err) => {
         alert(err.message);

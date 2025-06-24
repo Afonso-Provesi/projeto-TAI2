@@ -2,6 +2,7 @@
 db_pacientes = []
 db_usuarios = []
 db_compromissos = []
+db_agendas = ["Agenda Principal"]
 
 # Gera ID único incremental
 def get_next_id():

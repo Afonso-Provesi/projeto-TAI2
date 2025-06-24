@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-
 from models import Compromisso, CompromissoBase
 from database_fake import db_compromissos, get_next_compromisso_id
+from typing import Optional
 
 router = APIRouter()
 
@@ -13,8 +13,11 @@ def criar_compromisso(compromisso: CompromissoBase):
     return novo
 
 @router.get("/", response_model=List[Compromisso])
-def listar_compromissos():
+def listar_compromissos(agenda: Optional[str] = None):
+    if agenda:
+        return [c for c in db_compromissos if c.agenda == agenda]
     return db_compromissos
+
 
 @router.delete("/{compromisso_id}", response_model=Compromisso)
 def excluir_compromisso(compromisso_id: int):
