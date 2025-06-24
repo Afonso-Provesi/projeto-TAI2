@@ -6,16 +6,14 @@ from routes_compromissos import router as compromissos_router
 
 app = FastAPI()
 
-# CORS para permitir acesso do frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Em produção, use ['http://localhost:3000']
+    allow_origins=["*"],  # Em produção, restringir
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Inclui as rotas organizadas
 app.include_router(pacientes_router, prefix="/pacientes")
 app.include_router(usuarios_router, prefix="/usuarios")
 app.include_router(compromissos_router, prefix="/compromissos")

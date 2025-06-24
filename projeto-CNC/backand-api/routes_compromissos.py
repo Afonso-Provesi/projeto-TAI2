@@ -1,25 +1,35 @@
-from fastapi import APIRouter, HTTPException
-from typing import List
-
-from models import Compromisso, CompromissoBase
-from database_fake import db_compromissos, get_next_compromisso_id
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from models import CompromissoModel
+from schemas import Compromisso, CompromissoBase
+from database import SessionLocal
 
 router = APIRouter()
 
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 @router.post("/", response_model=Compromisso)
-def criar_compromisso(compromisso: CompromissoBase):
-    novo = Compromisso(id=get_next_compromisso_id(), **compromisso.dict())
-    db_compromissos.append(novo)
+def criar_compromisso(compromisso: CompromissoBase, db: Session = Depends(get_db)):
+    novo = CompromissoModel(**compromisso.dict())
+    db.add(novo)
+    db.commit()
+    db.refresh(novo)
     return novo
 
-@router.get("/", response_model=List[Compromisso])
-def listar_compromissos():
-    return db_compromissos
+@router.get("/", response_model=list[Compromisso])
+def listar_compromissos(db: Session = Depends(get_db)):
+    return db.query(CompromissoModel).all()
 
 @router.delete("/{compromisso_id}", response_model=Compromisso)
-def excluir_compromisso(compromisso_id: int):
-    compromisso = next((c for c in db_compromissos if c.id == compromisso_id), None)
+def excluir_compromisso(compromisso_id: int, db: Session = Depends(get_db)):
+    compromisso = db.query(CompromissoModel).get(compromisso_id)
     if not compromisso:
         raise HTTPException(status_code=404, detail="Compromisso não encontrado")
-    db_compromissos.remove(compromisso)
+    db.delete(compromisso)
+    db.commit()
     return compromisso
