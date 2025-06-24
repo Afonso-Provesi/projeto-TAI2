@@ -54,7 +54,7 @@ function TelaLogin() {
         <button type="submit" style={{ marginBottom: "10px" }}>
           Entrar
         </button>
-        <button type="button" onClick={() => navigate("/cadastrar")}>
+        <button type="button" onClick={() => navigate("/cadastro")}>
           Cadastrar-se
         </button>
       </form>

@@ -13,7 +13,7 @@ function Sidebar({ toggleSidebar, isOpen }) {
         {isOpen && <h2 className="logo">Minha Agenda</h2>}
         <ul>
           <li>
-            <NavLink to="/" className={({ isActive }) => isActive ? "active" : ""}>
+            <NavLink to="/agenda" className={({ isActive }) => isActive ? "active" : ""}>
               <span className="icon">📅</span>
               {isOpen && 'Agenda'}
             </NavLink>
