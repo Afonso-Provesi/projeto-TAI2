@@ -1,3 +1,5 @@
+Personas - Sistema medAgenda
+
 Persona 1: Dr. Felipe, Dentista
 Idade: 35 anos
 Cargo: Dentista clínico geral
@@ -24,10 +26,9 @@ Necessidades e Como a Ferramenta Seria Útil:
 
 Acesso a dados de pacientes: O sistema permite que ela veja o histórico do paciente e as observações do dentista sobre o tratamento. Isso ajuda a preparar o ambiente corretamente.
 Controle de agendamentos: Ela pode ver a programação das consultas, auxiliar na organização do consultório e informar aos pacientes sobre qualquer mudança de horário ou necessidade de exames.
-Notificações e lembretes: O sistema pode enviar lembretes sobre a necessidade de materiais ou equipamentos para procedimentos específicos.
 
 O que a ferramenta pode não ser tão útil para ela:
-Funcionalidades administrativas complexas: Não será necessário que ela gerencie as finanças ou faça a parte de faturamento, então funcionalidades complexas nesse sentido não são necessárias para ela.
+Alteração de software.
 
 
 Persona 3: Júlia, Recepcionista
@@ -39,8 +40,6 @@ Necessidades e Como a Ferramenta Seria Útil:
 
 Gestão de agendamentos: O sistema permite que ela marque, altere ou cancele as consultas dos pacientes facilmente. A interface simples e a possibilidade de visualizar a agenda de todos os profissionais são muito úteis.
 Cadastro de pacientes: A recepcionista pode facilmente adicionar ou atualizar os dados dos pacientes, mantendo a ficha clínica organizada.
-Controle de pagamentos: A ferramenta pode ser útil para registrar pagamentos, ajudando-a a manter o fluxo financeiro organizado.
 
 O que a ferramenta pode não ser tão útil para ela:
 Detalhes clínicos do paciente: Júlia não precisa acessar informações específicas sobre os tratamentos realizados pelos dentistas ou as notas clínicas. O foco dela é a parte administrativa, não a parte clínica.
-Funções avançadas de relatório: Embora ela possa acessar algumas informações sobre a agenda e pagamentos, relatórios mais complexos sobre tratamentos ou tendências de atendimento não são relevantes para o dia a dia dela.
