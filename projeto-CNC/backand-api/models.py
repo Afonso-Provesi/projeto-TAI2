@@ -32,6 +32,7 @@ class CompromissoBase(BaseModel):
     title: str
     start: datetime
     end: datetime
+    agenda: str
 
 class Compromisso(CompromissoBase):
     id: int

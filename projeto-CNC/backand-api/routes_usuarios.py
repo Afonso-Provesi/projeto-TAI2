@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from models import Usuario, UsuarioLogin
 from database_fake import db_usuarios
+from typing import List
 
 router = APIRouter()
 
@@ -17,3 +18,16 @@ def login_usuario(login: UsuarioLogin):
     if not user:
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
     return {"msg": "Login realizado com sucesso"}
+
+
+@router.get("/", response_model=List[Usuario])
+def listar_usuarios():
+    return db_usuarios
+
+@router.delete("/{email}")
+def deletar_usuario(email: str):
+    for i, usuario in enumerate(db_usuarios):
+        if usuario.email == email:
+            del db_usuarios[i]
+            return {"msg": "Usuário excluído com sucesso"}
+    raise HTTPException(status_code=404, detail="Usuário não encontrado")
